@@ -1,6 +1,6 @@
 # Splitwise Clone – Neurix Full-Stack SDE Assignment
 
-A full-stack application to track shared expenses, split costs (equally or by percentage), and view balances within groups. Built with **FastAPI** (Python), **PostgreSQL**, **React**, and **TailwindCSS**. Dockerized for easy setup.
+A full-stack application to track shared expenses, split costs (equally or by percentage), and view balances within groups. Built with **FastAPI** (Python), **PostgreSQL**, **React**, and **TailwindCSS**.
 
 ---
 
@@ -24,27 +24,40 @@ A full-stack application to track shared expenses, split costs (equally or by pe
 ## Tech Stack
 - **Backend:** FastAPI, SQLAlchemy, PostgreSQL
 - **Frontend:** React, TailwindCSS
-- **Containerization:** Docker, Docker Compose
 
 ---
 
 ## Getting Started
 
 ### Prerequisites
-- [Docker](https://www.docker.com/get-started) & Docker Compose
+- [Python 3.9+](https://www.python.org/downloads/)
+- [Node.js & npm](https://nodejs.org/)
 - (Optional) [Git](https://git-scm.com/)
 
-### Setup & Run (One Command)
+### Backend (FastAPI)
 
-1. **Clone the repository:**
+1. **Install dependencies:**
    ```sh
-git clone <your-repo-url>
-cd assignment
-```
-2. **Start all services:**
+   cd backend
+   pip install -r requirements.txt
+   ```
+2. **Start the backend server:**
    ```sh
-docker-compose up --build
-```
+   uvicorn app.main:app --reload
+   ```
+
+### Frontend (React)
+
+1. **Install dependencies:**
+   ```sh
+   cd frontend
+   npm install
+   ```
+2. **Start the frontend app:**
+   ```sh
+   npm start
+   ```
+
 3. **Access the app:**
    - Frontend: [http://localhost:3000](http://localhost:3000)
    - Backend API: [http://localhost:8000/docs](http://localhost:8000/docs) (OpenAPI docs)
@@ -76,7 +89,6 @@ docker-compose up --build
 assignment/
 ├── backend/      # FastAPI app
 ├── frontend/     # React app
-├── docker-compose.yml
 └── README.md
 ```
 
@@ -87,23 +99,6 @@ assignment/
 - No payment/settlement functionality
 - All users in a group are assumed to exist before group creation
 - Only equal and percentage splits are supported
-
----
-
-## Development
-
-### Backend (FastAPI)
-```sh
-cd backend
-uvicorn app.main:app --reload
-```
-
-### Frontend (React)
-```sh
-cd frontend
-npm install
-npm start
-```
 
 ---
 
