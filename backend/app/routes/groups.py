@@ -29,3 +29,18 @@ def create_expense_for_group(
     group_id: int, expense: schemas.ExpenseCreate, db: Session = Depends(get_db)
 ):
     return crud.create_expense(db=db, group_id=group_id, expense=expense)
+
+@router.get("/groups", response_model=List[schemas.Group])
+def read_groups(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    groups = db.query(models.Group).offset(skip).limit(limit).all()
+    result = []
+    for group in groups:
+        member_ids = [m.user_id for m in db.query(models.GroupMember).filter(models.GroupMember.group_id == group.id).all()]
+        users = db.query(models.User).filter(models.User.id.in_(member_ids)).all()
+        result.append(schemas.Group(
+            id=group.id,
+            name=group.name,
+            created_at=group.created_at,
+            members=[schemas.User.from_orm(user) for user in users]
+        ))
+    return result

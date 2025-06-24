@@ -30,7 +30,7 @@ const CreateGroup = () => {
     try {
       const groupData = {
         name: formData.name,
-        member_ids: selectedMembers
+        user_ids: selectedMembers // <-- FIXED: use user_ids to match backend
       };
       await groupService.createGroup(groupData);
       toast.success('Group created successfully!');

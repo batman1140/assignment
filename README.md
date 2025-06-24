@@ -4,6 +4,14 @@ A full-stack application to track shared expenses, split costs (equally or by pe
 
 ---
 
+## Screenshots
+
+![Home](./Screenshot%202025-06-24%20210051.png)
+![Groups](./2.png)
+![Balances](./4.png)
+
+---
+
 ## Features
 - **Group Management:** Create groups and add users
 - **Expense Management:** Add expenses, split equally or by percentage

@@ -18,17 +18,33 @@ def create_group(db: Session, group: schemas.GroupCreate):
     db.add(db_group)
     db.commit()
     db.refresh(db_group)
-    
     # Add members to group
     for user_id in group.user_ids:
         db_member = models.GroupMember(group_id=db_group.id, user_id=user_id)
         db.add(db_member)
-    
     db.commit()
-    return db_group
+    # Prepare response: fetch users for members
+    users = db.query(models.User).filter(models.User.id.in_(group.user_ids)).all()
+    return schemas.Group(
+        id=db_group.id,
+        name=db_group.name,
+        created_at=db_group.created_at,
+        members=[schemas.User.from_orm(user) for user in users]
+    )
 
 def get_group(db: Session, group_id: int):
-    return db.query(models.Group).filter(models.Group.id == group_id).first()
+    db_group = db.query(models.Group).filter(models.Group.id == group_id).first()
+    if db_group:
+        # Get all user objects for members
+        member_ids = [m.user_id for m in db.query(models.GroupMember).filter(models.GroupMember.group_id == db_group.id).all()]
+        users = db.query(models.User).filter(models.User.id.in_(member_ids)).all()
+        return schemas.Group(
+            id=db_group.id,
+            name=db_group.name,
+            created_at=db_group.created_at,
+            members=[schemas.User.from_orm(user) for user in users]
+        )
+    return None
 
 def create_expense(db: Session, group_id: int, expense: schemas.ExpenseCreate):
     db_expense = models.Expense(

@@ -48,15 +48,17 @@ const AddExpense = () => {
       toast.error('Please select a group');
       return;
     }
-    
     setIsLoading(true);
     try {
-      const expenseData = {
+      let expenseData = {
         description: formData.description,
         amount: parseFloat(formData.amount),
-        paid_by: formData.paidBy,
-        split_type: formData.splitType,
+        paid_by: parseInt(formData.paidBy),
+        split_type: formData.splitType.toLowerCase(),
+        splits: []
       };
+      // If split type is percentage, collect splits from group members (not implemented here)
+      // For now, keep splits empty for 'equal', as backend will handle it
       await groupService.addExpense(formData.groupId, expenseData);
       toast.success('Expense added successfully!');
       setFormData({
